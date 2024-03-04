@@ -1,7 +1,10 @@
 package com.epf.rentmanager.servlet;
 
+import com.epf.rentmanager.configuration.AppConfiguration;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.service.VehicleService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
 
@@ -21,10 +24,11 @@ public class HomeServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
+		VehicleService vehicleService = context.getBean(VehicleService.class);
 		int vehicleCount = 0;
 		try {
-            vehicleCount = VehicleService.getInstance().count();
+            vehicleCount = vehicleService.count();
         } catch (ServiceException e) {
             throw new ServletException(e);
         }

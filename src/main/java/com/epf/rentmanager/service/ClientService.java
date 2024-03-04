@@ -9,21 +9,14 @@ import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.utils.IOUtils;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ClientService implements ServiceTemplate<Client>{
 	private ClientDao clientDao;
-	public static ClientService instance;
 	private String serviceName = "client";
-	private ClientService() {
-		this.clientDao = ClientDao.getInstance();
-	}
-	
-	public static ClientService getInstance() {
-		if (instance == null) {
-			instance = new ClientService();
-		}
-		
-		return instance;
+	private ClientService(ClientDao clientDao) {
+		this.clientDao = clientDao;
 	}
 	@Override
 	public int create(Client client) throws ServiceException {

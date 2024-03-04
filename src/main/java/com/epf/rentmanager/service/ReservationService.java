@@ -10,25 +10,18 @@ import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.utils.IOUtils;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ReservationService implements ServiceTemplate<Reservation> {
 
     private ReservationDao reservationDao;
     public static ReservationService instance;
     private final String serviceName = "reservation";
 
-    private ReservationService() {
-        this.reservationDao = ReservationDao.getInstance();
+    private ReservationService(ReservationDao reservationDao) {
+        this.reservationDao = reservationDao;
     }
-
-    public static ReservationService getInstance() {
-        if (instance == null) {
-            instance = new ReservationService();
-        }
-
-        return instance;
-    }
-
     @Override
     public int create(Reservation reservation) throws ServiceException {
         try {

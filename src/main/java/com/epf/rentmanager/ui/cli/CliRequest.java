@@ -1,5 +1,6 @@
 package com.epf.rentmanager.ui.cli;
 
+import com.epf.rentmanager.configuration.AppConfiguration;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
@@ -8,6 +9,8 @@ import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.ServiceTemplate;
 import com.epf.rentmanager.service.VehicleService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,10 +21,12 @@ import static com.epf.rentmanager.utils.IOUtils.*;
 
 public class CliRequest {
     public static void menu(){
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
+
         List<ServiceTemplate> services = new ArrayList<>(Arrays.asList(
-                ReservationService.getInstance(),
-                VehicleService.getInstance(),
-                ClientService.getInstance()
+                context.getBean(ClientService.class),
+                context.getBean(VehicleService.class),
+                context.getBean(ReservationService.class)
         ));
         boolean keepMenuAlive = true;
         do{
@@ -55,6 +60,9 @@ public class CliRequest {
 
 
     static private void subMenu(ServiceTemplate service){
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        ReservationService reservationService = context.getBean(ReservationService.class);
+
         String name = service.getServiceName();
         String extraResOptions = (name.equals("reservation"))?
                 """
@@ -99,12 +107,12 @@ public class CliRequest {
                     break;
                 case 4:
                     int clientId = inputId();
-                    List<Reservation> reservations = ReservationService.getInstance().findResaByClientById(clientId);
+                    List<Reservation> reservations = reservationService.findResaByClientById(clientId);
                     reservations.forEach(element -> print(">"+element.toString()));
                     break;
                 case 5:
                     int vehicleId = inputId();
-                    reservations = ReservationService.getInstance().findResaByVehicleId(vehicleId);
+                    reservations = reservationService.findResaByVehicleId(vehicleId);
                     reservations.forEach(element -> print(">"+element.toString()));
                     break;
                 default:

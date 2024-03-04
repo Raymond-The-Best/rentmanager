@@ -8,23 +8,16 @@ import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.dao.VehicleDao;
 import com.epf.rentmanager.utils.IOUtils;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VehicleService implements ServiceTemplate<Vehicle>{
 
 	private VehicleDao vehicleDao;
-	public static VehicleService instance;
     private String serviceName = "vehicle";
 	
-	private VehicleService() {
-		this.vehicleDao = vehicleDao.getInstance();
-	}
-	
-	public static VehicleService getInstance() {
-		if (instance == null) {
-			instance = new VehicleService();
-		}
-		
-		return instance;
+	private VehicleService(VehicleDao vehicleDao) {
+		this.vehicleDao = vehicleDao;
 	}
 	
 	@Override
