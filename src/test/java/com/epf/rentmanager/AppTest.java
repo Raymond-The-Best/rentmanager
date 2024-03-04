@@ -1,4 +1,4 @@
-package epf;
+package com.epf.rentmanager;
 
 import static org.junit.Assert.assertTrue;
 
