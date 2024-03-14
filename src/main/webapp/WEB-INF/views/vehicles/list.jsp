@@ -41,7 +41,6 @@
                                     <td>${vehicle.constructeur()}</td>
                                     <td>${vehicle.modele()}</td>
                                     <td>${vehicle.nb_places()}</td>
-                                    <!--<td>John Doe</td>-->
                                     <td>
                                         <a class="btn btn-primary disabled" href="car-detail.html">
                                             <i class="fa fa-play"></i>
