@@ -33,10 +33,6 @@
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="manufacturer" class="col-sm-2 control-label">Marque</label>
-
-									<!-- Pour r�up�rer la valeur rentr�e dans un champ input de cette jsp au niveau de votre servlet -->
-									<!-- vous devez passer par les methodes getParameter de l'objet request, est sp�cifiant la valeur -->
-									<!-- de l'attribut "name" de l'input -->
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="Marque" required>
                                     </div>
@@ -52,7 +48,7 @@
                                     <label for="seats" class="col-sm-2 control-label">Nombre de places</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="seats" name="seats" placeholder="Nombre de places" required>
+                                        <input type="number" class="form-control" id="seats" name="seats" min="2" max="9" placeholder="Nombre de places" required>
                                     </div>
                                 </div>
                                 <!--

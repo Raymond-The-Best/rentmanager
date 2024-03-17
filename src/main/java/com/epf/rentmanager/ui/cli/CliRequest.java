@@ -66,8 +66,8 @@ public class CliRequest {
         String name = service.getServiceName();
         String extraResOptions = (name.equals("reservation"))?
                 """
-                4. See all %ss for a given client
-                5. See all %ss for a given vehicle""".formatted(name, name)
+                5. See all %ss for a given client
+                6. See all %ss for a given vehicle""".formatted(name, name)
                 : "";
         print(
                 """
@@ -75,8 +75,9 @@ public class CliRequest {
                 1. Create a %s 
                 2. Delete a %s
                 3. See all %ss
+                4. Find %s by ID
                 %s
-                0. Exit""".formatted(name,name,name, extraResOptions)
+                0. Exit""".formatted(name,name,name,name, extraResOptions)
         );
         int choice = readInt(">>");
         try {
@@ -106,11 +107,17 @@ public class CliRequest {
                     service.findAll().forEach(element -> print(">"+element.toString()));
                     break;
                 case 4:
+                    service.findById(inputId()).ifPresentOrElse(
+                            element -> print(element.toString()),
+                            () -> print("No match found")
+                    );
+                    break;
+                case 5:
                     int clientId = inputId();
                     List<Reservation> reservations = reservationService.findResaByClientById(clientId);
                     reservations.forEach(element -> print(">"+element.toString()));
                     break;
-                case 5:
+                case 6:
                     int vehicleId = inputId();
                     reservations = reservationService.findResaByVehicleId(vehicleId);
                     reservations.forEach(element -> print(">"+element.toString()));

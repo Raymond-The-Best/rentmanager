@@ -3,12 +3,14 @@ package com.epf.rentmanager.service;
 import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.epf.rentmanager.dao.ReservationDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
+import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.utils.IOUtils;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,14 @@ public class ReservationService implements ServiceTemplate<Reservation> {
     public int delete(Reservation reservation) throws ServiceException {
         try {
             return reservationDao.delete(reservation);
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+    }
+    @Override
+    public Optional<Reservation> findById(int id) throws ServiceException {
+        try {
+            return reservationDao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException();
         }
@@ -64,5 +74,13 @@ public class ReservationService implements ServiceTemplate<Reservation> {
 
     public String getServiceName() {
         return serviceName;
+    }
+
+    public int count() throws ServiceException {
+        try {
+            return reservationDao.count();
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
     }
 }

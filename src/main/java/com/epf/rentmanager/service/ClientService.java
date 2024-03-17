@@ -37,6 +37,7 @@ public class ClientService implements ServiceTemplate<Client>{
 			throw new ServiceException();
 		}
 	}
+	@Override
 	public Optional<Client> findById(int id) throws ServiceException {
         try {
             return clientDao.findById(id);
@@ -59,4 +60,12 @@ public class ClientService implements ServiceTemplate<Client>{
         }
 
     }
+
+	public int count() throws ServiceException {
+		try {
+			return clientDao.count();
+		} catch (DaoException e) {
+			throw new ServiceException();
+		}
+	}
 }

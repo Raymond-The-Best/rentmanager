@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @WebServlet("/users/create")
 public class ClientCreateServlet extends HttpServlet {
@@ -28,11 +30,14 @@ public class ClientCreateServlet extends HttpServlet {
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        formatter = formatter.withLocale(Locale.FRANCE);
+        LocalDate naissance = LocalDate.parse(request.getParameter("birthday"), formatter);
         Client client = new Client(-1,
                 request.getParameter("last_name"),
                 request.getParameter("first_name"),
                 request.getParameter("email"),
-                LocalDate.of(2020,02,03));
+                naissance);
         try {
             clientService.create(client);
         } catch (ServiceException e) {

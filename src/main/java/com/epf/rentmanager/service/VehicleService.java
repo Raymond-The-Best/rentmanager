@@ -30,6 +30,7 @@ public class VehicleService implements ServiceTemplate<Vehicle>{
         }
     }
 
+    @Override
 	public Optional<Vehicle> findById(int id) throws ServiceException {
         try {
             return vehicleDao.findById(id);

@@ -60,7 +60,7 @@ public class VehicleDao {
 		try (Connection connexion = ConnectionManager.getConnection();
 			 PreparedStatement statement = connexion.prepareStatement(FIND_VEHICLE_QUERY);){
 			statement.setInt(1, id);
-			statement.executeUpdate();
+			statement.execute();
 			ResultSet resultat = statement.getResultSet();
 			while(resultat.next()){
 				Vehicle vehicle = new Vehicle(id,
