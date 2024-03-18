@@ -5,15 +5,19 @@ import java.util.Optional;
 
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.dao.VehicleDao;
 import com.epf.rentmanager.utils.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VehicleService implements ServiceTemplate<Vehicle>{
 
-	private VehicleDao vehicleDao;
+	@Autowired
+    private ReservationService reservationService;
+    private VehicleDao vehicleDao;
     private String serviceName = "vehicle";
 	
 	private VehicleService(VehicleDao vehicleDao) {
@@ -41,6 +45,8 @@ public class VehicleService implements ServiceTemplate<Vehicle>{
     @Override
     public int delete(Vehicle vehicle) throws ServiceException{
         try {
+            List<Reservation> reservationsASupprimer = reservationService.findResaByVehicleId(vehicle.id());
+            for(Reservation reservation: reservationsASupprimer) reservationService.delete(reservation);
             return vehicleDao.delete(vehicle);
         } catch (DaoException e) {
             throw new ServiceException();

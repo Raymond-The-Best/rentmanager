@@ -48,7 +48,7 @@
                                         <a class="btn btn-success disabled" href="#">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a class="btn btn-danger disabled" href="#">
+                                        <a class="btn btn-danger enabled" href="${pageContext.request.contextPath}/cars?id=${vehicle.id()}&delete=terminate">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

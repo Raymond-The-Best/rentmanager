@@ -64,6 +64,11 @@
                                         <input type="text" class="form-control" id="end" name="end" required
                                                data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                     </div>
+                                    <div>
+                                    <c:if test="${not empty requestScope.reservationError}">
+                                            <p style="color: red;"><c:out value="${requestScope.reservationError}" /></p>
+                                    </c:if>
+                                    </div>
                                 </div>
                             </div>
                             <!-- /.box-body -->

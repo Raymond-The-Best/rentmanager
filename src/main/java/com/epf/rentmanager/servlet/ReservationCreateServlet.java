@@ -66,12 +66,18 @@ public class ReservationCreateServlet extends HttpServlet {
                 debut,
                 fin
         );
+        boolean validated = false;
         try {
-            reservationService.create(reservation);
+            validated = reservationService.authorizeReservation(reservation);
+            if (validated) reservationService.create(reservation);
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
-        response.sendRedirect(request.getContextPath() + "/rents");
+        if (validated) response.sendRedirect(request.getContextPath() + "/rents");
+        else {
+            request.setAttribute("reservationError", "Reservation is not possible. Please choose different dates.");
+            doGet(request, response);
+        }
     }
 
 }

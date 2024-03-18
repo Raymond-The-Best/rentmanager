@@ -8,11 +8,15 @@ import com.epf.rentmanager.dao.ClientDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
+import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.utils.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ClientService implements ServiceTemplate<Client>{
+	@Autowired
+	private ReservationService reservationService;
 	private ClientDao clientDao;
 	private String serviceName = "client";
 	private ClientService(ClientDao clientDao) {
@@ -32,6 +36,8 @@ public class ClientService implements ServiceTemplate<Client>{
 	@Override
 	public int delete(Client client) throws ServiceException{
 		try {
+			List<Reservation> reservationsASupprimer = reservationService.findResaByClientById(client.id());
+			for(Reservation reservation: reservationsASupprimer) reservationService.delete(reservation);
 			return clientDao.delete(client);
 		} catch (DaoException e){
 			throw new ServiceException();

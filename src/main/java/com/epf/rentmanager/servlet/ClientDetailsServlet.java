@@ -53,7 +53,7 @@ public class ClientDetailsServlet extends HttpServlet {
             }
 
         } catch (ServiceException e) {
-            throw new RuntimeException(e);
+            throw new ServletException(e);
         }
 
         request.setAttribute("client", client);

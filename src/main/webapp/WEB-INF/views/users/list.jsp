@@ -31,7 +31,7 @@
                                     <th>Nom</th>
                                     <th>Prenom</th>
                                     <th>Email</th>
-                                    <th>Action</th>
+                                    <th>Date de naissance</th>
                                 </tr>
                                 <tr>
                                     <c:forEach items="${clients}" var="client">
@@ -47,7 +47,7 @@
                                         <a class="btn btn-success disabled" href="#">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a class="btn btn-danger disabled" href="#">
+                                        <a class="btn btn-danger enabled" href="${pageContext.request.contextPath}/users?id=${client.id()}&delete=terminate">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
