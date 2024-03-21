@@ -37,12 +37,18 @@ public class ClientCreateServlet extends HttpServlet {
                 request.getParameter("first_name"),
                 request.getParameter("email"),
                 naissance);
+        boolean validated = false;
         try {
-            clientService.create(client);
+            validated = clientService.authorizeClient(client);
+            if (validated) clientService.create(client);
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
-        response.sendRedirect(request.getContextPath() + "/users");
+        if (validated) response.sendRedirect(request.getContextPath() + "/users");
+        else{
+            request.setAttribute("clientError", "Client creation is not possible. Please choose new email or set age over 18.");
+            doGet(request, response);
+        }
     }
 
 }

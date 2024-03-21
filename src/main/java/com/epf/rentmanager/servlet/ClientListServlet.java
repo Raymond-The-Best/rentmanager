@@ -39,24 +39,19 @@ public class ClientListServlet extends HttpServlet {
             boolean delete = request.getParameter("delete").equals("terminate");
             if(delete){
                 try {
-                    System.out.println("Attempting to delete client "+selectedClientId);
                     clientService.delete(new Client(selectedClientId, null, null, null, null));
                 } catch (ServiceException e) {
                     throw new ServletException(e);
                 }
             }
         }
-
-
         List<Client> clients;
         try {
             clients = clientService.findAll();
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
-
         request.setAttribute("clients", clients);
-
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/list.jsp").forward(request, response);
     }
 }

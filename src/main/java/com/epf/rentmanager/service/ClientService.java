@@ -1,5 +1,7 @@
 package com.epf.rentmanager.service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -66,6 +68,13 @@ public class ClientService implements ServiceTemplate<Client>{
         }
 
     }
+	public List<String> getAllEmail() throws ServiceException {
+		try{
+			return clientDao.getAllEmail();
+		} catch (DaoException e){
+			throw new ServiceException();
+		}
+	}
 
 	public int count() throws ServiceException {
 		try {
@@ -74,4 +83,19 @@ public class ClientService implements ServiceTemplate<Client>{
 			throw new ServiceException();
 		}
 	}
+	public boolean authorizeClient(Client client){
+		if(!isOver18YearsOld(client)) return false;
+		if(!isNewEmailAddress(client)) return false;
+		return true;
+	}
+	private boolean isOver18YearsOld(Client client){
+		return ChronoUnit.YEARS.between(client.naissance(), LocalDate.now()) >= 18;
+	}
+	private boolean isNewEmailAddress(Client client){
+        try {
+            return !clientDao.getAllEmail().contains(client.email());
+        } catch (DaoException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

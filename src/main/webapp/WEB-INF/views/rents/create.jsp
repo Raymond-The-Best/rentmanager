@@ -64,7 +64,7 @@
                                         <input type="text" class="form-control" id="end" name="end" required
                                                data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                     </div>
-                                    <div>
+                                    <div class="col-sm-10">
                                     <c:if test="${not empty requestScope.reservationError}">
                                             <p style="color: red;"><c:out value="${requestScope.reservationError}" /></p>
                                     </c:if>

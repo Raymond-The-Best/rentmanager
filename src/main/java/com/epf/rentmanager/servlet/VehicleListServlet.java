@@ -35,7 +35,6 @@ public class VehicleListServlet extends HttpServlet {
             boolean delete = request.getParameter("delete").equals("terminate");
             if(delete){
                 try {
-                    System.out.println("Attempting to delete vehicle "+selectedVehicleId);
                     vehicleService.delete(new Vehicle(selectedVehicleId, -1, null, null));
                 } catch (ServiceException e) {
                     throw new ServletException(e);

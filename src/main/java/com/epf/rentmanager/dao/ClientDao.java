@@ -23,8 +23,8 @@ public class ClientDao {
 	private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
 	private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id=?;";
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
-
 	private static final String FIND_NB_CLIENTS_QUERY = "SELECT COUNT(*) AS client_count FROM Client;";
+	private static final String FIND_ALL_EMAILS = "SELECT email FROM Client;";
 	
 	public int create(Client client) throws DaoException {
 		// Créer un client dans la BDD à partir d'un objet Client
@@ -117,5 +117,20 @@ public class ClientDao {
 			throw new DaoException(e.toString());
 		}
 		return count;
+	}
+
+	public List<String> getAllEmail() throws DaoException{
+		List<String> emailAddresses = new ArrayList<>();
+		try (Connection connexion = ConnectionManager.getConnection();
+			 PreparedStatement statement = connexion.prepareStatement(FIND_ALL_EMAILS);){
+			statement.execute();
+			ResultSet resultat = statement.getResultSet();
+			while(resultat.next()){
+				emailAddresses.add(resultat.getString("email"));
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return emailAddresses;
 	}
 }

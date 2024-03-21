@@ -57,9 +57,6 @@ public class ReservationCreateServlet extends HttpServlet {
         LocalDate debut = LocalDate.parse(request.getParameter("begin"), formatter);
         LocalDate fin = LocalDate.parse(request.getParameter("end"), formatter);
 
-        print("Selected vehicle id:"+request.getParameter(("car")));
-        print("Selected client id:"+request.getParameter(("client")));
-
         Reservation reservation = new Reservation(-1,
                 Integer.parseInt(request.getParameter("car")),
                 Integer.parseInt(request.getParameter("client")),

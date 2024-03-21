@@ -53,11 +53,9 @@ public class ReservationListServlet extends HttpServlet {
                                 "VEHICLE MISSING"
                 );
             }
-
         } catch (ServiceException e) {
             throw new ServletException(e);
         }
-
         request.setAttribute("reservations", reservations);
         request.setAttribute("vehicles_names", vehicles);
         request.setAttribute("clients_names", clients);
