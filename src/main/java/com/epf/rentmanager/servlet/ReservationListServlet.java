@@ -34,6 +34,20 @@ public class ReservationListServlet extends HttpServlet {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String selectedRentIdString = request.getParameter("id");
+        if(selectedRentIdString != null){
+            int selectedRentId = Integer.parseInt(selectedRentIdString);
+            boolean delete = request.getParameter("delete").equals("terminate");
+            if(delete){
+                try {
+                    reservationService.delete(new Reservation(selectedRentId, -1, -1, null, null));
+                } catch (ServiceException e) {
+                    throw new ServletException(e);
+                }
+            }
+        }
+
         List<Reservation> reservations;
         List<String> clients = new ArrayList<>();
         List<String> vehicles = new ArrayList<>();

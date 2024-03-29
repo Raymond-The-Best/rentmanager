@@ -42,13 +42,10 @@
                                     <td>${reservations[i].debut()}</td>
                                     <td>${reservations[i].fin()}</td>
                                     <td>
-                                        <a class="btn btn-primary disabled" href="car-detail.html">
-                                            <i class="fa fa-play"></i>
-                                        </a>
                                         <a class="btn btn-success disabled" href="#">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a class="btn btn-danger disabled" href="#">
+                                        <a class="btn btn-danger enabled" href="${pageContext.request.contextPath}/rents?id=${reservations[i].id()}&delete=terminate" onclick="return confirm('Do you really want to delete this reservation?')">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
