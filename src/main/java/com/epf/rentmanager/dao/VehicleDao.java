@@ -19,6 +19,7 @@ public class VehicleDao {
 	private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle WHERE id=?;";
 	private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle;";
 	private static final String FIND_NB_VEHICLES_QUERY = "SELECT COUNT(*) AS vehicle_count FROM Vehicle;";
+	private static final String UPDATE_VEHICLE = "UPDATE Vehicle SET constructeur=?, modele=?, nb_places=? WHERE id=?";
 	
 	public int create(Vehicle vehicle) throws DaoException {
 		// Créer un véhicule dans la BDD à partir d'un objet Vehicle
@@ -110,5 +111,19 @@ public class VehicleDao {
 			throw new DaoException(e.toString());
 		}
 		return count;
+	}
+
+	public boolean update(Vehicle vehicle) throws DaoException {
+		try (Connection connexion = ConnectionManager.getConnection();
+			 PreparedStatement statement = connexion.prepareStatement(UPDATE_VEHICLE);){
+			statement.setString(1, vehicle.constructeur());
+			statement.setString(2, vehicle.modele());
+			statement.setInt(3, vehicle.nb_places());
+			statement.setInt(4, vehicle.id());
+			statement.execute();
+		} catch (SQLException e) {
+			throw new DaoException(e.toString());
+		}
+		return true;
 	}
 }

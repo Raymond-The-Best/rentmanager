@@ -44,7 +44,7 @@
                                         <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?id=${client.id()}">
                                         <i class="fa fa-play"></i>
                                         </a>
-                                        <a class="btn btn-success disabled" href="#">
+                                        <a class="btn btn-success enabled" href="${pageContext.request.contextPath}/users/update?id=${client.id()}">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a class="btn btn-danger enabled" href="${pageContext.request.contextPath}/users?id=${client.id()}&delete=terminate" onclick="return confirm('Do you really want to delete this user?')">

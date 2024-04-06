@@ -42,7 +42,7 @@
                                     <td>${vehicle.modele()}</td>
                                     <td>${vehicle.nb_places()}</td>
                                     <td>
-                                        <a class="btn btn-success disabled" href="#">
+                                        <a class="btn btn-success enabled" href="${pageContext.request.contextPath}/cars/update?id=${vehicle.id()}">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a class="btn btn-danger enabled" href="${pageContext.request.contextPath}/cars?id=${vehicle.id()}&delete=terminate" onclick="return confirm('Do you really want to delete this vehicle?')">

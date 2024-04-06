@@ -25,6 +25,7 @@ public class ClientDao {
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
 	private static final String FIND_NB_CLIENTS_QUERY = "SELECT COUNT(*) AS client_count FROM Client;";
 	private static final String FIND_ALL_EMAILS = "SELECT email FROM Client;";
+	private static final String UPDATE_CLIENT = "UPDATE Client SET nom=?, prenom=?, email=?, naissance=? WHERE id=?";
 	
 	public int create(Client client) throws DaoException {
 		// Créer un client dans la BDD à partir d'un objet Client
@@ -132,5 +133,22 @@ public class ClientDao {
 			throw new RuntimeException(e);
 		}
 		return emailAddresses;
+	}
+
+	public boolean update(Client client) throws DaoException{
+		boolean success = false;
+		try (Connection connexion = ConnectionManager.getConnection();
+			 PreparedStatement statement = connexion.prepareStatement(UPDATE_CLIENT);){
+			statement.setString(1, client.nom());
+			statement.setString(2, client.prenom());
+			statement.setString(3, client.email());
+			statement.setDate(4, Date.valueOf(client.naissance()));
+			statement.setInt(5, client.id());
+			statement.execute();
+			success = true;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return success;
 	}
 }

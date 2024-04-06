@@ -132,4 +132,12 @@ public class ReservationService implements ServiceTemplate<Reservation> {
         }
         return true;
     }
+
+    public boolean update(Reservation reservation) throws ServiceException {
+        try {
+            return reservationDao.update(reservation);
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+    }
 }

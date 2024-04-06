@@ -73,4 +73,21 @@ public class VehicleService implements ServiceTemplate<Vehicle>{
             throw new ServiceException();
         }
     }
+
+    public boolean authorizeVehicleUpdate(Vehicle vehicle) {
+        return correctSeatNumber(vehicle);
+
+    }
+    private boolean correctSeatNumber(Vehicle vehicle){
+        return (vehicle.nb_places()>=2 && vehicle.nb_places()<=9);
+    }
+
+    public boolean update(Vehicle vehicle) throws ServiceException {
+        try {
+            vehicleDao.update(vehicle);
+        }catch (DaoException e){
+            throw new ServiceException();
+        }
+        return true;
+    }
 }

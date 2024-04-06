@@ -75,6 +75,13 @@ public class ClientService implements ServiceTemplate<Client>{
 			throw new ServiceException();
 		}
 	}
+	public boolean update(Client client) throws ServiceException {
+		try {
+			return clientDao.update(client);
+		} catch (DaoException e){
+			throw new ServiceException();
+		}
+	}
 
 	public int count() throws ServiceException {
 		try {
@@ -83,9 +90,14 @@ public class ClientService implements ServiceTemplate<Client>{
 			throw new ServiceException();
 		}
 	}
-	public boolean authorizeClient(Client client){
+	public boolean authorizeClientCreation(Client client){
 		if(!isOver18YearsOld(client)) return false;
 		if(!isNewEmailAddress(client)) return false;
+		return true;
+	}
+	public boolean authorizeClientUpdate(Client originalClient, Client newClient){
+		if(!isOver18YearsOld(newClient)) return false;
+		if(!isNewEmailAddress(newClient) && !originalClient.email().equals(newClient.email())) return false;
 		return true;
 	}
 	private boolean isOver18YearsOld(Client client){

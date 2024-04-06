@@ -28,10 +28,8 @@ public class ReservationDao {
 	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY = "SELECT id, client_id, debut, fin FROM Reservation WHERE vehicle_id=?;";
 	private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation;";
 	private static final String FIND_NB_RESERVATIONS_QUERY = "SELECT COUNT(*) AS reservation_count FROM Reservation;";
-		
+	private static final String UPDATE_RESERVATION = "UPDATE Reservation SET client_id=?, vehicle_id=?, debut=?, fin=? WHERE id=?";
 	public int create(Reservation reservation) throws DaoException {
-		// Créer une réservation dans la BDD à partir d'un objet Reservation
-		// Renvoie l'ID de l'instance créée
 		try (Connection connexion = ConnectionManager.getConnection();
 			 PreparedStatement statement = connexion.prepareStatement(CREATE_RESERVATION_QUERY, PreparedStatement.RETURN_GENERATED_KEYS);){
 			statement.setInt(1, reservation.client_id());
@@ -163,4 +161,19 @@ public class ReservationDao {
 		}
 		return count;
 	}
+
+    public boolean update(Reservation reservation) throws DaoException {
+		try (Connection connexion = ConnectionManager.getConnection();
+			 PreparedStatement statement = connexion.prepareStatement(UPDATE_RESERVATION);){
+			statement.setInt(1, reservation.client_id());
+			statement.setInt(2, reservation.vehicle_id());
+			statement.setDate(3, Date.valueOf(reservation.debut()));
+			statement.setDate(4, Date.valueOf(reservation.fin()));
+			statement.setInt(5, reservation.id());
+			statement.execute();
+		} catch (SQLException e) {
+			throw new DaoException(e.toString());
+		}
+		return true;
+    }
 }
